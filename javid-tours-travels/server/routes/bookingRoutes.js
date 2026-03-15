@@ -57,8 +57,8 @@ function renderEmailShell({ eyebrow, title, intro, accentText, booking, footerTe
       <div style="max-width: 680px; margin: 0 auto; padding: 32px 18px;">
         <div style="border-radius: 24px; overflow: hidden; background: #ffffff; box-shadow: 0 20px 45px rgba(0, 56, 46, 0.12); border: 1px solid #d9e7e2;">
           <div style="padding: 26px 30px; background: linear-gradient(135deg, #063a32 0%, #0a5b4c 100%); color: #ffffff; text-align: center;">
-            <div style="width: 132px; height: 132px; margin: 0 auto 14px; border-radius: 999px; background: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);">
-              <img src="cid:javid-logo" alt="Javid Tours and Travels" style="width: 104px; max-width: 100%; height: auto; display: block; filter: brightness(0) invert(1);" />
+            <div style="width: 132px; height: 132px; margin: 0 auto 14px; border-radius: 999px; background: #f3fff9; border: 3px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);">
+              <img src="cid:javid-logo" alt="Javid Tours and Travels" style="width: 104px; max-width: 100%; height: auto; display: block;" />
             </div>
             <div style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; opacity: 0.84; font-weight: 700;">${escapeHtml(eyebrow)}</div>
             <h1 style="margin: 10px 0 8px; font-size: 32px; line-height: 1.15;">${escapeHtml(title)}</h1>
