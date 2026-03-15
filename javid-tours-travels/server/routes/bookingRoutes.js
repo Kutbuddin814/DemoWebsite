@@ -92,6 +92,7 @@ function createMailTransport() {
   const smtpPort = Number(process.env.SMTP_PORT || 587);
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
+  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
 
   if (!smtpHost || !smtpUser || !smtpPass) {
     return null;
@@ -101,14 +102,64 @@ function createMailTransport() {
     host: smtpHost,
     port: smtpPort,
     secure: smtpPort === 465,
-    family: 4,
+    ...(smtpFamily ? { family: smtpFamily } : {}),
     connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
     greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
     socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
     auth: {
       user: smtpUser,
       pass: smtpPass
+    },
+    tls: {
+      servername: smtpHost
     }
+  });
+}
+
+function createFallbackMailTransport() {
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    return null;
+  }
+
+  const primaryPort = Number(process.env.SMTP_PORT || 587);
+  const fallbackPort = primaryPort === 465 ? 587 : 465;
+
+  return nodemailer.createTransport({
+    host: smtpHost,
+    port: fallbackPort,
+    secure: fallbackPort === 465,
+    ...(smtpFamily ? { family: smtpFamily } : {}),
+    connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
+    greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
+    socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
+    auth: {
+      user: smtpUser,
+      pass: smtpPass
+    },
+    tls: {
+      servername: smtpHost
+    }
+  });
+}
+
+function isRetriableMailError(error) {
+  const message = error?.message || "";
+  return (
+    message.includes("Connection timeout") ||
+    message.includes("ETIMEDOUT") ||
+    message.includes("ENETUNREACH") ||
+    message.includes("ECONNRESET")
+  );
+}
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
   });
 }
 
@@ -170,25 +221,53 @@ async function sendBookingEmails(booking) {
     attachments = [];
   }
 
-  await Promise.all([
-    transport.sendMail({
-      from: fromEmail,
-      to: booking.email,
-      subject: "We received your Javid Tours inquiry",
-      html: customerHtml,
-      attachments
-    }),
-    transport.sendMail({
-      from: fromEmail,
-      to: ownerEmail,
-      replyTo: booking.email,
-      subject: `New website booking from ${booking.name}`,
-      html: ownerHtml,
-      attachments
-    })
-  ]);
+  const customerPayload = {
+    from: fromEmail,
+    to: booking.email,
+    subject: "We received your Javid Tours inquiry",
+    html: customerHtml,
+    attachments
+  };
 
-  return { sent: true };
+  const ownerPayload = {
+    from: fromEmail,
+    to: ownerEmail,
+    replyTo: booking.email,
+    subject: `New website booking from ${booking.name}`,
+    html: ownerHtml,
+    attachments
+  };
+
+  const attempts = [
+    { name: "primary", transport },
+    { name: "fallback", transport: createFallbackMailTransport() }
+  ].filter((item) => Boolean(item.transport));
+
+  let lastError = null;
+
+  for (const attempt of attempts) {
+    try {
+      await Promise.all([
+        attempt.transport.sendMail(customerPayload),
+        attempt.transport.sendMail(ownerPayload)
+      ]);
+
+      return { sent: true };
+    } catch (error) {
+      lastError = error;
+      if (!isRetriableMailError(error)) {
+        throw error;
+      }
+
+      await wait(1200);
+    }
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+
+  return { sent: false };
 }
 
 async function saveBookingToFallback(booking) {
