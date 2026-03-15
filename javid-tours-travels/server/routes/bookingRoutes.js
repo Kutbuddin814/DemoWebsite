@@ -101,6 +101,10 @@ function createMailTransport() {
     host: smtpHost,
     port: smtpPort,
     secure: smtpPort === 465,
+    family: 4,
+    connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
+    greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
+    socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
     auth: {
       user: smtpUser,
       pass: smtpPass
@@ -232,18 +236,14 @@ router.post("/book", async (req, res) => {
       await saveBookingToFallback(bookingPayload);
     }
 
-    let emailStatus = { sent: false };
-    try {
-      emailStatus = await sendBookingEmails(bookingPayload);
-    } catch (emailError) {
+    // Do not block the API response on SMTP latency/failures.
+    void sendBookingEmails(bookingPayload).catch((emailError) => {
       console.error("Booking email send failed:", emailError.message);
-    }
+    });
 
     return res.status(201).json({
       success: true,
-      message: emailStatus.sent
-        ? "Inquiry received successfully"
-        : "Inquiry saved successfully"
+      message: "Inquiry received successfully"
     });
 
   } catch (error) {
