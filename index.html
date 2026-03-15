@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JAVID Tours and Travels | Goa</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome (WhatsApp Icon) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f4f8f5;
+  color: #333;
+}
+
+/* ================= HEADER ================= */
+header {
+  background: linear-gradient(135deg, #1b8f3a, #2ecc71);
+  color: white;
+  text-align: center;
+  padding: 20px 20px 30px;
+}
+
+.logo-star {
+  font-size: 7rem;
+  display: block;
+  margin: 0 auto 10px;
+  line-height: 1;
+  text-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+header h1 {
+  font-size: 2.4rem;
+  letter-spacing: 1.4px;
+}
+
+header p {
+  margin-top: 6px;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+  background: #146c2e;
+  text-align: center;
+  padding: 8px 0;
+}
+
+nav a {
+  color: white;
+  margin: 0 16px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  color: #c9f7dc;
+}
+
+/* ================= SECTIONS ================= */
+section {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 35px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+h2 {
+  color: #1b8f3a;
+  margin-bottom: 15px;
+}
+
+h2::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background: #2ecc71;
+  display: block;
+  margin-top: 6px;
+  border-radius: 10px;
+}
+
+section p {
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+/* ================= CTA ================= */
+.cta-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: #2ecc71;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+/* ================= LISTS ================= */
+ul {
+  list-style: none;
+}
+
+ul li {
+  background: #f1fbf4;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-left: 6px solid #1b8f3a;
+  border-radius: 10px;
+}
+
+/* ================= FORM ================= */
+form input,
+form textarea {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  background: linear-gradient(135deg, #1b8f3a, #2ecc71);
+  color: white;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* ================= WHATSAPP CHAT ================= */
+.whatsapp-chat {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #25D366;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+.whatsapp-chat i {
+  font-size: 1.4rem;
+}
+
+.whatsapp-chat:hover {
+  transform: scale(1.05);
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: #146c2e;
+  color: white;
+  text-align: center;
+  padding: 18px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .logo-star {
+    font-size: 5rem;
+  }
+
+  .whatsapp-chat span {
+    display: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-star">★</div>
+  <h1>JAVID TOURS AND TRAVELS</h1>
+  <p>Your Trusted Travel Partner in Goa</p>
+</header>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#enquiry">Enquiry</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="home">
+  <h2>Welcome</h2>
+  <p>
+    Welcome to <strong>JAVID Tours and Travels</strong>, your reliable local travel partner in Goa.
+    We offer comfortable, affordable, and well-planned travel experiences.
+  </p>
+  <a href="#enquiry" class="cta-btn">Plan Your Trip Now</a>
+</section>
+
+<section id="services">
+  <h2>Our Services</h2>
+  <ul>
+    <li>Goa Sightseeing Tours</li>
+    <li>Airport & Railway Transfers</li>
+    <li>Hotel & Resort Bookings</li>
+    <li>Water Sports & Activities</li>
+    <li>Customized Travel Plans</li>
+  </ul>
+</section>
+
+<section id="why-us">
+  <h2>Why Choose Us</h2>
+  <ul>
+    <li>✔ Local Goa Travel Experts</li>
+    <li>✔ Affordable & Transparent Pricing</li>
+    <li>✔ Comfortable and Safe Travel</li>
+    <li>✔ Friendly Customer Support</li>
+  </ul>
+</section>
+
+<section id="enquiry">
+  <h2>Enquiry Form</h2>
+  <form>
+    <input type="text" placeholder="Full Name" required>
+    <input type="tel" placeholder="Phone Number" required>
+    <input type="email" placeholder="Email Address">
+    <textarea rows="4" placeholder="Your Message"></textarea>
+    <button type="submit">Submit Enquiry</button>
+  </form>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p><strong>📞 Phone / WhatsApp:</strong> 97678 56773</p>
+  <p><strong>📍 Location:</strong> Goa, India</p>
+</section>
+
+<footer>
+  © 2026 JAVID Tours and Travels | All Rights Reserved
+</footer>
+
+<!-- WhatsApp Floating Button WITH AUTO MESSAGE -->
+<a 
+  href="https://wa.me/919767856773?text=Hi%2C%20I%E2%80%99m%20interested%20in%20booking%20a%20Goa%20tour%20with%20Javid%20Tours%20and%20Travels."
+  class="whatsapp-chat"
+  target="_blank">
+  <i class="fa-brands fa-whatsapp"></i>
+  <span>Start chatting with me</span>
+</a>
+
+</body>
+</html>
