@@ -92,7 +92,8 @@ function createMailTransport() {
   const smtpPort = Number(process.env.SMTP_PORT || 587);
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
-  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
+  const smtpFamilyEnv = Number(process.env.SMTP_FAMILY || 4);
+  const smtpFamily = [4, 6].includes(smtpFamilyEnv) ? smtpFamilyEnv : 4;
 
   if (!smtpHost || !smtpUser || !smtpPass) {
     return null;
@@ -120,7 +121,8 @@ function createFallbackMailTransport() {
   const smtpHost = process.env.SMTP_HOST;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
-  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
+  const smtpFamilyEnv = Number(process.env.SMTP_FAMILY || 4);
+  const smtpFamily = [4, 6].includes(smtpFamilyEnv) ? smtpFamilyEnv : 4;
 
   if (!smtpHost || !smtpUser || !smtpPass) {
     return null;
@@ -133,7 +135,7 @@ function createFallbackMailTransport() {
     host: smtpHost,
     port: fallbackPort,
     secure: fallbackPort === 465,
-    ...(smtpFamily ? { family: smtpFamily } : {}),
+    family: smtpFamily,
     connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
     greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
     socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
