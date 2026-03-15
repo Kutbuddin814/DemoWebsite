@@ -87,6 +87,43 @@ function renderEmailShell({ eyebrow, title, intro, accentText, booking, footerTe
   `;
 }
 
+async function sendViaResend({ to, subject, html, replyTo }) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const resendFrom = process.env.RESEND_FROM;
+
+  if (!resendApiKey || !resendFrom) {
+    throw new Error("Resend is not configured");
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: resendFrom,
+        to: [to],
+        subject,
+        html,
+        ...(replyTo ? { reply_to: replyTo } : {})
+      }),
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Resend error: ${response.status} ${body}`);
+    }
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 function createMailTransport() {
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = Number(process.env.SMTP_PORT || 587);
@@ -223,6 +260,28 @@ async function sendBookingEmails(booking) {
     attachments = [];
   }
 
+  // Prefer HTTP-based provider on hosted environments (more reliable than SMTP).
+  // Falls back to SMTP when Resend is not configured or fails.
+  try {
+    await Promise.all([
+      sendViaResend({
+        to: booking.email,
+        subject: "We received your Javid Tours inquiry",
+        html: customerHtml
+      }),
+      sendViaResend({
+        to: ownerEmail,
+        replyTo: booking.email,
+        subject: `New website booking from ${booking.name}`,
+        html: ownerHtml
+      })
+    ]);
+
+    return { sent: true, provider: "resend" };
+  } catch {
+    // Continue to SMTP fallback.
+  }
+
   const customerPayload = {
     from: fromEmail,
     to: booking.email,
@@ -254,7 +313,7 @@ async function sendBookingEmails(booking) {
         attempt.transport.sendMail(ownerPayload)
       ]);
 
-      return { sent: true };
+      return { sent: true, provider: "smtp" };
     } catch (error) {
       lastError = error;
       if (!isRetriableMailError(error)) {
@@ -269,7 +328,7 @@ async function sendBookingEmails(booking) {
     throw lastError;
   }
 
-  return { sent: false };
+  return { sent: false, provider: "none" };
 }
 
 async function saveBookingToFallback(booking) {
