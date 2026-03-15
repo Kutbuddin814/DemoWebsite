@@ -57,8 +57,8 @@ function renderEmailShell({ eyebrow, title, intro, accentText, booking, footerTe
       <div style="max-width: 680px; margin: 0 auto; padding: 32px 18px;">
         <div style="border-radius: 24px; overflow: hidden; background: #ffffff; box-shadow: 0 20px 45px rgba(0, 56, 46, 0.12); border: 1px solid #d9e7e2;">
           <div style="padding: 26px 30px; background: linear-gradient(135deg, #063a32 0%, #0a5b4c 100%); color: #ffffff; text-align: center;">
-            <div style="width: 132px; height: 132px; margin: 0 auto 14px; border-radius: 999px; background: #f3fff9; border: 3px solid rgba(255, 255, 255, 0.35); display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);">
-              <img src="cid:javid-logo" alt="Javid Tours and Travels" style="width: 104px; max-width: 100%; height: auto; display: block;" />
+            <div style="width: 132px; height: 132px; margin: 0 auto 14px; border-radius: 999px; background: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);">
+              <img src="cid:javid-logo" alt="Javid Tours and Travels" style="width: 104px; max-width: 100%; height: auto; display: block; filter: brightness(0) invert(1);" />
             </div>
             <div style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; opacity: 0.84; font-weight: 700;">${escapeHtml(eyebrow)}</div>
             <h1 style="margin: 10px 0 8px; font-size: 32px; line-height: 1.15;">${escapeHtml(title)}</h1>
@@ -97,72 +97,18 @@ function createMailTransport() {
     return null;
   }
 
-  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
-
   return nodemailer.createTransport({
     host: smtpHost,
     port: smtpPort,
     secure: smtpPort === 465,
-    ...(smtpFamily ? { family: smtpFamily } : {}),
+    family: 4,
     connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
     greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
     socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
     auth: {
       user: smtpUser,
       pass: smtpPass
-    },
-    tls: {
-      servername: smtpHost
     }
-  });
-}
-
-function createFallbackMailTransport() {
-  const smtpHost = process.env.SMTP_HOST;
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
-
-  if (!smtpHost || !smtpUser || !smtpPass) {
-    return null;
-  }
-
-  // If primary is 587, fallback to 465. If primary is 465, fallback to 587.
-  const primaryPort = Number(process.env.SMTP_PORT || 587);
-  const fallbackPort = primaryPort === 465 ? 587 : 465;
-
-  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
-
-  return nodemailer.createTransport({
-    host: smtpHost,
-    port: fallbackPort,
-    secure: fallbackPort === 465,
-    ...(smtpFamily ? { family: smtpFamily } : {}),
-    connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
-    greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
-    socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
-    auth: {
-      user: smtpUser,
-      pass: smtpPass
-    },
-    tls: {
-      servername: smtpHost
-    }
-  });
-}
-
-function isRetriableMailError(error) {
-  const message = error?.message || "";
-  return (
-    message.includes("Connection timeout") ||
-    message.includes("ETIMEDOUT") ||
-    message.includes("ENETUNREACH") ||
-    message.includes("ECONNRESET")
-  );
-}
-
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
   });
 }
 
@@ -224,54 +170,25 @@ async function sendBookingEmails(booking) {
     attachments = [];
   }
 
-  const customerPayload = {
-    from: fromEmail,
-    to: booking.email,
-    subject: "We received your Javid Tours inquiry",
-    html: customerHtml,
-    attachments
-  };
+  await Promise.all([
+    transport.sendMail({
+      from: fromEmail,
+      to: booking.email,
+      subject: "We received your Javid Tours inquiry",
+      html: customerHtml,
+      attachments
+    }),
+    transport.sendMail({
+      from: fromEmail,
+      to: ownerEmail,
+      replyTo: booking.email,
+      subject: `New website booking from ${booking.name}`,
+      html: ownerHtml,
+      attachments
+    })
+  ]);
 
-  const ownerPayload = {
-    from: fromEmail,
-    to: ownerEmail,
-    replyTo: booking.email,
-    subject: `New website booking from ${booking.name}`,
-    html: ownerHtml,
-    attachments
-  };
-
-  const attempts = [
-    { name: "primary", transport },
-    { name: "fallback", transport: createFallbackMailTransport() }
-  ].filter((item) => Boolean(item.transport));
-
-  let lastError = null;
-
-  for (const attempt of attempts) {
-    try {
-      await Promise.all([
-        attempt.transport.sendMail(customerPayload),
-        attempt.transport.sendMail(ownerPayload)
-      ]);
-
-      return { sent: true };
-    } catch (error) {
-      lastError = error;
-      if (!isRetriableMailError(error)) {
-        throw error;
-      }
-
-      // Small backoff before retrying alternate transport.
-      await wait(1200);
-    }
-  }
-
-  if (lastError) {
-    throw lastError;
-  }
-
-  return { sent: false };
+  return { sent: true };
 }
 
 async function saveBookingToFallback(booking) {
