@@ -1,0 +1,1307 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* NAVBAR */
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: #004d40;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8%;
+  color: white;
+  z-index: 9999;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.logo {
+  font-size: 20px;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo-img {
+  height: 120px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  line-height: 1;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  position: relative;
+  margin-top: 0;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: white;
+  max-width: 500px;
+}
+
+.hero-overlay h1 {
+  font-size: 42px;
+}
+
+.hero-overlay p {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.hero-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #ffcc00;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* PAGES */
+.page {
+  padding: 120px 8%;
+  text-align: center;
+}
+
+/* CONTACT FORM */
+.contact-form {
+  max-width: 500px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.contact-form button {
+  padding: 12px;
+  background: #004d40;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.contact-form button:hover {
+  background: #00695c;
+}
+
+/* FOOTER */
+.footer {
+  background: #004d40;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+  .nav-links {
+    position: absolute;
+    top: var(--nav-h);
+    right: 0;
+    background: #004d40;
+    flex-direction: column;
+    width: 200px;
+    padding: 20px;
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .hero-overlay {
+    left: 5%;
+    max-width: 90%;
+  }
+
+  .hero-overlay h1 {
+    font-size: 26px;
+  }
+
+  .hero-overlay p {
+    font-size: 14px;
+  }
+
+  .hero {
+    height: 70vh;
+  }
+}
+/* SERVICES PAGE */
+
+.services-page {
+  padding-top: 120px;
+  padding-bottom: 60px;
+  background: linear-gradient(to bottom, #f8f9fa, #e6f2ef);
+  min-height: 100vh;
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.services-header h1 {
+  font-size: 38px;
+  color: #004d40;
+}
+
+.services-header p {
+  color: #555;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.services-container {
+  width: 85%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.service-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.service-icon {
+  font-size: 40px;
+  color: #ffcc00;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  margin-bottom: 15px;
+  color: #004d40;
+}
+
+.service-card p {
+  color: #666;
+  font-size: 14px;
+}
+/* HERO IMPROVEMENT */
+.hero {
+  height: 100vh;
+  position: relative;
+  margin-top: 70px;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay-dark {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.4)
+  );
+  top: 0;
+  left: 0;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: white;
+  max-width: 600px;
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.hero-content p {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.hero-btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.hero-btn:hover {
+  background: #ffd633;
+}
+
+/* TOURS PAGE */
+.tours-page {
+  padding: 120px 8%;
+  background: #f4f8f7;
+  min-height: 100vh;
+}
+
+.tours-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.tours-header h1 {
+  font-size: 38px;
+  color: #004d40;
+}
+
+.tours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+}
+
+.tour-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: 0.3s ease;
+}
+
+.tour-card:hover {
+  transform: translateY(-10px);
+}
+
+.tour-card h3 {
+  color: #004d40;
+  margin-bottom: 20px;
+}
+
+.tour-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tour-card li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* CONTACT PAGE */
+.contact-page {
+  padding: 120px 8%;
+  background: linear-gradient(to right, #004d40, #00695c);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-box {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.contact-box h1 {
+  margin-bottom: 30px;
+  color: #004d40;
+}
+
+.contact-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-box input,
+.contact-box textarea {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.contact-box button {
+  padding: 12px;
+  background: #004d40;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-box button:hover {
+  background: #00695c;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .hero-content {
+    left: 5%;
+  }
+
+  .hero {
+    height: 75vh;
+  }
+}
+/* TOURS PAGE PREMIUM DESIGN */
+
+.tours-page {
+  padding: 120px 8%;
+  background: linear-gradient(to bottom, #f4f8f7, #eaf3f1);
+  min-height: 100vh;
+}
+
+.tours-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.tours-header h1 {
+  font-size: 40px;
+  color: #004d40;
+}
+
+.tours-header p {
+  color: #555;
+  margin-top: 10px;
+}
+
+.section-title {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  font-size: 26px;
+  color: #00695c;
+}
+
+.places-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.place-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.place-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.place-icon {
+  font-size: 35px;
+  color: #ffcc00;
+  margin-bottom: 15px;
+}
+
+.place-card h3 {
+  margin-bottom: 10px;
+  color: #004d40;
+}
+
+.place-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .tours-header h1 {
+    font-size: 28px;
+  }
+
+  .section-title {
+    font-size: 20px;
+  }
+}
+.thankyou-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #004d40, #00695c);
+}
+
+.thankyou-box {
+  background: white;
+  padding: 50px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 500px;
+}
+
+.thankyou-box h1 {
+  color: #004d40;
+  margin-bottom: 20px;
+}
+
+.thankyou-box p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* UI POLISH OVERRIDES */
+:root {
+  --nav-h: 130px;
+  --brand-900: #033c34;
+  --brand-800: #004d40;
+  --brand-700: #00695c;
+  --accent-500: #ffcc00;
+  --surface-0: #ffffff;
+  --surface-50: #f4f8f7;
+  --text-900: #17332e;
+  --text-600: #4f625d;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  color: var(--text-900);
+  background: radial-gradient(circle at top right, #f1f8f6 0%, #ffffff 45%);
+}
+
+.navbar {
+  background: #004d40;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.logo {
+  letter-spacing: 0.6px;
+  font-weight: 700;
+}
+
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--accent-500);
+  transition: width 0.2s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.hero-content h1 {
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.hero-btn {
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 204, 0, 0.3);
+}
+
+.services-page,
+.tours-page,
+.contact-page {
+  padding-top: 32px;
+  padding-bottom: 72px;
+}
+
+.service-card,
+.place-card,
+.contact-box,
+.thankyou-box {
+  border: 1px solid rgba(0, 77, 64, 0.08);
+}
+
+.contact-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(120deg, rgba(0, 77, 64, 0.88), rgba(0, 105, 92, 0.84)),
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.15), transparent 48%);
+}
+
+.contact-box {
+  width: min(92vw, 560px);
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.2);
+}
+
+.contact-box input,
+.contact-box textarea {
+  font: inherit;
+  border-radius: 10px;
+  border: 1px solid #ccd8d5;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-box input:focus,
+.contact-box textarea:focus {
+  border-color: var(--brand-700);
+  box-shadow: 0 0 0 3px rgba(0, 105, 92, 0.16);
+  outline: none;
+}
+
+.contact-box textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-box button {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 0.18s ease, background-color 0.2s ease;
+}
+
+.contact-box button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.contact-box button:disabled {
+  background: #8ea39f;
+  cursor: not-allowed;
+}
+
+.contact-note {
+  margin-top: 14px;
+  color: var(--text-600);
+  font-size: 14px;
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 20px;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 2px solid #e7f9ef;
+  background: #25d366;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 14px 26px rgba(4, 92, 37, 0.4);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.whatsapp-float svg {
+  font-size: 24px;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 18px 28px rgba(4, 92, 37, 0.46);
+}
+
+@media (max-width: 768px) {
+  .services-page,
+  .tours-page,
+  .contact-page {
+    padding-top: 104px;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .contact-box {
+    padding: 26px;
+  }
+
+  .whatsapp-float {
+    right: 12px;
+    bottom: 14px;
+    padding: 11px 14px;
+  }
+
+  .whatsapp-float span {
+    display: none;
+  }
+}
+
+.page-section {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+  padding: 56px 0;
+}
+
+.home-page {
+  padding-top: 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f9f8 100%);
+}
+
+.home-intro h2,
+.home-benefits h2,
+.home-terms h2,
+.home-inclusions h2,
+.home-fleet h2 {
+  color: var(--brand-900);
+  margin-bottom: 14px;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.home-intro p {
+  max-width: 860px;
+  color: var(--text-600);
+  line-height: 1.8;
+  font-size: 17px;
+}
+
+.home-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.home-two-column {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.home-info-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 77, 64, 0.12);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.home-info-card h3 {
+  margin-bottom: 10px;
+  color: var(--brand-800);
+  font-size: 20px;
+}
+
+.home-info-card p {
+  color: var(--text-600);
+  line-height: 1.65;
+}
+
+.home-info-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-600);
+  line-height: 1.7;
+}
+
+.home-cta {
+  margin-top: 30px;
+}
+
+.tours-header p {
+  max-width: 680px;
+  margin: 12px auto 0;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .page-section {
+    width: 90vw;
+    padding: 40px 0;
+  }
+
+  .home-intro p {
+    font-size: 15px;
+  }
+}
+
+/* FINAL HOMEPAGE ALIGNMENT + FULL HERO IMAGE */
+.hero {
+  position: relative;
+  margin-top: 70px;
+  height: clamp(380px, 82vh, 860px);
+  background: linear-gradient(180deg, #0d1f1c 0%, #102825 100%);
+  overflow: hidden;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.hero-overlay-dark {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.18) 45%, rgba(0, 0, 0, 0.28) 100%);
+}
+
+.hero-content {
+  left: max(5.5vw, 28px);
+  max-width: min(560px, 86vw);
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(6, 30, 26, 0.34);
+  backdrop-filter: blur(2px);
+}
+
+.hero-content h1 {
+  font-size: clamp(34px, 4.4vw, 64px);
+  letter-spacing: 0.2px;
+}
+
+.hero-content p {
+  font-size: clamp(16px, 1.2vw, 22px);
+  color: #eef7f4;
+}
+
+.home-page .page-section {
+  width: min(1160px, 92vw);
+}
+
+.home-intro {
+  padding-top: 64px;
+  text-align: left;
+}
+
+.home-benefits,
+.home-terms,
+.home-inclusions,
+.home-fleet {
+  text-align: left;
+}
+
+.home-benefits,
+.home-inclusions {
+  background: linear-gradient(180deg, rgba(226, 242, 238, 0.34) 0%, rgba(245, 249, 248, 0) 100%);
+}
+
+.home-list-grid,
+.home-two-column {
+  align-items: stretch;
+}
+
+.home-info-card {
+  height: 100%;
+  padding: 22px;
+  border-radius: 16px;
+}
+
+.home-info-card p,
+.home-info-card li {
+  font-size: 15px;
+}
+
+.home-info-card li + li {
+  margin-top: 4px;
+}
+
+.home-cta {
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    height: clamp(330px, 58vh, 560px);
+  }
+
+  .hero-content {
+    top: auto;
+    bottom: 24px;
+    transform: none;
+    padding: 14px 16px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(28px, 7.2vw, 42px);
+  }
+
+  .hero-content p {
+    font-size: 15px;
+  }
+
+  .home-page .page-section {
+    width: 90vw;
+  }
+
+  .home-intro {
+    padding-top: 44px;
+  }
+
+  .home-cta {
+    justify-content: center;
+  }
+}
+
+/* PROFESSIONAL HERO + ANIMATIONS */
+.hero.hero-pro {
+  margin-top: 0;
+  height: auto;
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  align-items: center;
+  padding: 44px 0;
+  background:
+    radial-gradient(circle at 7% 12%, rgba(255, 206, 84, 0.22), transparent 34%),
+    linear-gradient(140deg, #06201c 0%, #063a32 48%, #052a24 100%);
+}
+
+.hero-shell {
+  width: min(1220px, 94vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: clamp(24px, 3vw, 42px);
+  align-items: center;
+}
+
+.hero-copy {
+  color: #ffffff;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+}
+
+.hero-kicker {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 1.1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 999px;
+  color: #0f3b33;
+  background: #ffd35a;
+}
+
+.hero.hero-pro .hero-copy h1 {
+  margin: 0;
+  font-size: clamp(38px, 5vw, 70px);
+  line-height: 1.03;
+}
+
+.hero.hero-pro .hero-copy > p {
+  margin-top: 14px;
+  max-width: 520px;
+  line-height: 1.7;
+  color: #f3fbf8;
+  font-size: clamp(15px, 1.15vw, 18px);
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hero-badges span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ecf7f3;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero.hero-pro .hero-btn {
+  margin-top: 24px;
+}
+
+.hero-media {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.hero-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 620px;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.home-info-card,
+.service-card,
+.place-card,
+.contact-box,
+.thankyou-box {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.home-info-card:hover,
+.service-card:hover,
+.place-card:hover,
+.contact-box:hover,
+.thankyou-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.animate-slide-up {
+  animation: slideUp 0.7s ease-out both;
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.8s ease-out 0.14s both;
+}
+
+.home-page .page-section {
+  animation: fadeInSoft 0.7s ease both;
+}
+
+.home-page .page-section:nth-of-type(2) {
+  animation-delay: 0.08s;
+}
+
+.home-page .page-section:nth-of-type(3) {
+  animation-delay: 0.16s;
+}
+
+.home-page .page-section:nth-of-type(4) {
+  animation-delay: 0.24s;
+}
+
+.home-page .page-section:nth-of-type(5) {
+  animation-delay: 0.32s;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .hero.hero-pro {
+    min-height: auto;
+    padding: 24px 0 34px;
+  }
+
+  .hero-shell {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .hero.hero-pro .hero-copy h1 {
+    font-size: clamp(34px, 8.6vw, 48px);
+  }
+
+  .hero.hero-pro .hero-copy > p {
+    max-width: none;
+  }
+
+  .hero-media img {
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-up,
+  .animate-zoom-in,
+  .home-page .page-section {
+    animation: none;
+  }
+}
+
+/* RESPONSIVE HARDENING */
+@media (max-width: 1100px) {
+  :root {
+    --nav-h: 104px;
+  }
+
+  .logo-img {
+    height: 88px;
+  }
+
+  .hero-shell {
+    width: min(960px, 94vw);
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .hero.hero-pro {
+    padding: 28px 0 34px;
+  }
+
+  .hero-copy {
+    text-align: left;
+  }
+
+  .services-container,
+  .places-grid,
+  .home-list-grid,
+  .home-two-column {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-h: 84px;
+  }
+
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .logo-img {
+    height: 62px;
+  }
+
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 24px;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: calc(var(--nav-h) - 2px);
+    right: 4%;
+    left: 4%;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(1, 63, 54, 0.98);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+
+  .nav-links.active {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .hero.hero-pro {
+    min-height: auto;
+    padding: 18px 0 24px;
+  }
+
+  .hero.hero-pro .hero-copy h1 {
+    font-size: clamp(30px, 8.6vw, 42px);
+  }
+
+  .hero.hero-pro .hero-copy > p {
+    font-size: 15px;
+  }
+
+  .hero-badges {
+    gap: 8px;
+  }
+
+  .hero-badges span {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .page-section {
+    width: 90vw;
+    padding: 34px 0;
+  }
+
+  .services-page,
+  .tours-page,
+  .contact-page {
+    padding: 20px 5% 56px;
+  }
+
+  .services-container,
+  .places-grid,
+  .home-list-grid,
+  .home-two-column {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .service-card,
+  .place-card,
+  .home-info-card,
+  .contact-box,
+  .thankyou-box {
+    padding: 18px;
+  }
+
+  .whatsapp-float {
+    right: 10px;
+    bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 4%;
+  }
+
+  .logo-img {
+    height: 56px;
+  }
+
+  .hero.hero-pro .hero-copy h1 {
+    font-size: clamp(28px, 9vw, 36px);
+  }
+
+  .hero.hero-pro .hero-copy > p {
+    font-size: 14px;
+  }
+
+  .contact-box {
+    width: 95vw;
+  }
+
+  .thankyou-box h1 {
+    font-size: 30px;
+  }
+}
