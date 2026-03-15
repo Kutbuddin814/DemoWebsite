@@ -97,11 +97,13 @@ function createMailTransport() {
     return null;
   }
 
+  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
+
   return nodemailer.createTransport({
     host: smtpHost,
     port: smtpPort,
     secure: smtpPort === 465,
-    family: 4,
+    ...(smtpFamily ? { family: smtpFamily } : {}),
     connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
     greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
     socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
@@ -128,11 +130,13 @@ function createFallbackMailTransport() {
   const primaryPort = Number(process.env.SMTP_PORT || 587);
   const fallbackPort = primaryPort === 465 ? 587 : 465;
 
+  const smtpFamily = Number(process.env.SMTP_FAMILY || 0);
+
   return nodemailer.createTransport({
     host: smtpHost,
     port: fallbackPort,
     secure: fallbackPort === 465,
-    family: 4,
+    ...(smtpFamily ? { family: smtpFamily } : {}),
     connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
     greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
     socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
@@ -154,6 +158,12 @@ function isRetriableMailError(error) {
     message.includes("ENETUNREACH") ||
     message.includes("ECONNRESET")
   );
+}
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function sendBookingEmails(booking) {
@@ -231,28 +241,37 @@ async function sendBookingEmails(booking) {
     attachments
   };
 
-  try {
-    await Promise.all([
-      transport.sendMail(customerPayload),
-      transport.sendMail(ownerPayload)
-    ]);
-  } catch (error) {
-    if (!isRetriableMailError(error)) {
-      throw error;
-    }
+  const attempts = [
+    { name: "primary", transport },
+    { name: "fallback", transport: createFallbackMailTransport() }
+  ].filter((item) => Boolean(item.transport));
 
-    const fallbackTransport = createFallbackMailTransport();
-    if (!fallbackTransport) {
-      throw error;
-    }
+  let lastError = null;
 
-    await Promise.all([
-      fallbackTransport.sendMail(customerPayload),
-      fallbackTransport.sendMail(ownerPayload)
-    ]);
+  for (const attempt of attempts) {
+    try {
+      await Promise.all([
+        attempt.transport.sendMail(customerPayload),
+        attempt.transport.sendMail(ownerPayload)
+      ]);
+
+      return { sent: true };
+    } catch (error) {
+      lastError = error;
+      if (!isRetriableMailError(error)) {
+        throw error;
+      }
+
+      // Small backoff before retrying alternate transport.
+      await wait(1200);
+    }
   }
 
-  return { sent: true };
+  if (lastError) {
+    throw lastError;
+  }
+
+  return { sent: false };
 }
 
 async function saveBookingToFallback(booking) {
