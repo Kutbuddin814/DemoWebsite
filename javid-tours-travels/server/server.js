@@ -24,9 +24,16 @@ const allowedOrigins = configuredOrigins.length > 0
   ? configuredOrigins
   : defaultAllowedOrigins;
 
+function isTrustedNetlifyPreview(origin = "") {
+  // Supports preview URLs like:
+  // https://<hash>--exquisite-hummingbird-439c9a.netlify.app
+  // https://<hash>-exquisite-hummingbird-439c9a.netlify.app
+  return /^https:\/\/[a-z0-9-]+-{1,2}exquisite-hummingbird-439c9a\.netlify\.app$/i.test(origin);
+}
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || isTrustedNetlifyPreview(origin)) {
       return callback(null, true);
     }
 
