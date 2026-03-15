@@ -108,8 +108,52 @@ function createMailTransport() {
     auth: {
       user: smtpUser,
       pass: smtpPass
+    },
+    tls: {
+      servername: smtpHost
     }
   });
+}
+
+function createFallbackMailTransport() {
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    return null;
+  }
+
+  // If primary is 587, fallback to 465. If primary is 465, fallback to 587.
+  const primaryPort = Number(process.env.SMTP_PORT || 587);
+  const fallbackPort = primaryPort === 465 ? 587 : 465;
+
+  return nodemailer.createTransport({
+    host: smtpHost,
+    port: fallbackPort,
+    secure: fallbackPort === 465,
+    family: 4,
+    connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT || 15000),
+    greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT || 10000),
+    socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT || 20000),
+    auth: {
+      user: smtpUser,
+      pass: smtpPass
+    },
+    tls: {
+      servername: smtpHost
+    }
+  });
+}
+
+function isRetriableMailError(error) {
+  const message = error?.message || "";
+  return (
+    message.includes("Connection timeout") ||
+    message.includes("ETIMEDOUT") ||
+    message.includes("ENETUNREACH") ||
+    message.includes("ECONNRESET")
+  );
 }
 
 async function sendBookingEmails(booking) {
@@ -170,23 +214,43 @@ async function sendBookingEmails(booking) {
     attachments = [];
   }
 
-  await Promise.all([
-    transport.sendMail({
-      from: fromEmail,
-      to: booking.email,
-      subject: "We received your Javid Tours inquiry",
-      html: customerHtml,
-      attachments
-    }),
-    transport.sendMail({
-      from: fromEmail,
-      to: ownerEmail,
-      replyTo: booking.email,
-      subject: `New website booking from ${booking.name}`,
-      html: ownerHtml,
-      attachments
-    })
-  ]);
+  const customerPayload = {
+    from: fromEmail,
+    to: booking.email,
+    subject: "We received your Javid Tours inquiry",
+    html: customerHtml,
+    attachments
+  };
+
+  const ownerPayload = {
+    from: fromEmail,
+    to: ownerEmail,
+    replyTo: booking.email,
+    subject: `New website booking from ${booking.name}`,
+    html: ownerHtml,
+    attachments
+  };
+
+  try {
+    await Promise.all([
+      transport.sendMail(customerPayload),
+      transport.sendMail(ownerPayload)
+    ]);
+  } catch (error) {
+    if (!isRetriableMailError(error)) {
+      throw error;
+    }
+
+    const fallbackTransport = createFallbackMailTransport();
+    if (!fallbackTransport) {
+      throw error;
+    }
+
+    await Promise.all([
+      fallbackTransport.sendMail(customerPayload),
+      fallbackTransport.sendMail(ownerPayload)
+    ]);
+  }
 
   return { sent: true };
 }

@@ -11,7 +11,7 @@ body {
 /* NAVBAR */
 /* NAVBAR */
 .navbar {
-  position: sticky;
+  position: static;
   top: 0;
   left: 0;
   right: 0;
@@ -557,6 +557,7 @@ body {
   font-family: "Poppins", "Segoe UI", sans-serif;
   color: var(--text-900);
   background: radial-gradient(circle at top right, #f1f8f6 0%, #ffffff 45%);
+  padding-top: var(--nav-h);
 }
 
 .navbar {
@@ -1304,5 +1305,14 @@ body {
 
   .thankyou-box h1 {
     font-size: 30px;
+  }
+}
+
+/* FINAL NAVBAR OVERRIDES */
+@media (max-width: 768px) {
+  .navbar .nav-links {
+    left: auto !important;
+    right: 4% !important;
+    width: min(260px, 88vw) !important;
   }
 }
