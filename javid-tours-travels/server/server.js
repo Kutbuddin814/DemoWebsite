@@ -9,7 +9,30 @@ dotenv.config();   // ✅ MUST BE FIRST
 
 const app = express();
 
-app.use(cors());
+const defaultAllowedOrigins = [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://exquisite-hummingbird-439c9a.netlify.app"
+];
+
+const configuredOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = configuredOrigins.length > 0
+  ? configuredOrigins
+  : defaultAllowedOrigins;
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  }
+}));
 app.use(express.json());
 
 // Force IPv4
@@ -30,6 +53,8 @@ if (mongoUri) {
 
 app.use("/api", bookingRoutes);
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const port = Number(process.env.PORT) || 5000;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
