@@ -11,10 +11,7 @@ body {
 /* NAVBAR */
 /* NAVBAR */
 .navbar {
-  position: static;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   height: var(--nav-h);
   background: #004d40;
   display: flex;
@@ -557,7 +554,7 @@ body {
   font-family: "Poppins", "Segoe UI", sans-serif;
   color: var(--text-900);
   background: radial-gradient(circle at top right, #f1f8f6 0%, #ffffff 45%);
-  padding-top: var(--nav-h);
+  padding-top: 0;
 }
 
 .navbar {
@@ -1197,7 +1194,7 @@ body {
 
   .nav-links {
     position: absolute;
-    top: calc(var(--nav-h) - 2px);
+    top: calc(100% + 6px);
     right: 4%;
     left: auto;
     width: min(260px, 88vw);
