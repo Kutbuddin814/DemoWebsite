@@ -61,6 +61,9 @@ if (mongoUri) {
 app.use("/api", bookingRoutes);
 
 const port = Number(process.env.PORT) || 5000;
+app.get("/", (req, res) => {
+  res.send("Backend API is running 🚀");
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
