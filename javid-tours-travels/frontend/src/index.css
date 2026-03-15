@@ -1198,7 +1198,8 @@ body {
     position: absolute;
     top: calc(var(--nav-h) - 2px);
     right: 4%;
-    left: 4%;
+    left: auto;
+    width: min(260px, 88vw);
     flex-direction: column;
     gap: 4px;
     padding: 12px;
