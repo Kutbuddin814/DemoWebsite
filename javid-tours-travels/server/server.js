@@ -12,14 +12,14 @@ const app = express();
 const defaultAllowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
-  "https://exquisite-hummingbird-439c9a.netlify.app"
+  "https://javidtoursandtravels.netlify.app"
 ];
 
 const configuredOrigins = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
-
+  
 const allowedOrigins = configuredOrigins.length > 0
   ? configuredOrigins
   : defaultAllowedOrigins;
