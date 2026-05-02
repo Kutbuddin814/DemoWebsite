@@ -71,7 +71,7 @@ function Navbar() {
         </div>
 
         <div className="mobile-footer">
-          <a href="tel:+911234567890" className="mobile-support">
+          <a href="tel:+9767856773" className="mobile-support">
             <Phone size={18} /> Call Support
           </a>
 
