@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import nodemailer from "nodemailer";
 
 const router = express.Router();
 
@@ -12,79 +13,58 @@ const __dirname = path.dirname(__filename);
 const fallbackFilePath = path.join(__dirname, "..", "data", "bookings-fallback.json");
 
 
-// ================= EMAIL FUNCTION (RESEND) =================
+// ================= EMAIL FUNCTION (BREVO SMTP) =================
 
 async function sendBookingEmails(booking) {
-  const ownerEmail = process.env.BOOKING_OWNER_EMAIL;
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const resendFrom = process.env.RESEND_FROM;
-
-  if (!ownerEmail || !resendApiKey || !resendFrom) {
-    console.log("❌ Missing Resend config");
-    return;
-  }
-
-  const submittedAt = new Date(booking.createdAt).toLocaleString("en-IN", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  });
-
-  // 📩 CUSTOMER EMAIL
-  const customerHtml = `
-    <h2>Thank you for contacting Javid Tours</h2>
-    <p>We received your inquiry and will contact you soon.</p>
-    <hr/>
-    <p><b>Name:</b> ${booking.name}</p>
-    <p><b>Phone:</b> ${booking.phone}</p>
-    <p><b>Email:</b> ${booking.email}</p>
-    <p><b>Message:</b> ${booking.message || "No message"}</p>
-  `;
-
-  // 📩 OWNER EMAIL
-  const ownerHtml = `
-    <h2>New Booking Inquiry</h2>
-    <p><b>Name:</b> ${booking.name}</p>
-    <p><b>Phone:</b> ${booking.phone}</p>
-    <p><b>Email:</b> ${booking.email}</p>
-    <p><b>Message:</b> ${booking.message || "No message"}</p>
-    <p><b>Submitted:</b> ${submittedAt}</p>
-  `;
-
   try {
-    await Promise.all([
-      // CUSTOMER
-      fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: resendFrom,
-          to: [booking.email],
-          subject: "We received your inquiry - Javid Tours",
-          html: customerHtml
-        })
-      }),
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
 
-      // OWNER
-      fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          from: resendFrom,
-          to: [ownerEmail],
-          subject: `New Booking from ${booking.name}`,
-          html: ownerHtml,
-          reply_to: booking.email
-        })
-      })
-    ]);
+    const submittedAt = new Date(booking.createdAt).toLocaleString("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
 
-    console.log("✅ Emails sent successfully");
+    // 📩 CUSTOMER EMAIL
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to: booking.email,
+      subject: "We received your inquiry - Javid Tours",
+      html: `
+        <h2>Thank you for contacting Javid Tours</h2>
+        <p>We received your inquiry and will contact you soon.</p>
+        <hr/>
+        <p><b>Name:</b> ${booking.name}</p>
+        <p><b>Phone:</b> ${booking.phone}</p>
+        <p><b>Email:</b> ${booking.email}</p>
+        <p><b>Message:</b> ${booking.message || "No message"}</p>
+      `
+    });
+
+    // 📩 OWNER EMAIL
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to: process.env.BOOKING_OWNER_EMAIL,
+      subject: `New Booking from ${booking.name}`,
+      html: `
+        <h2>New Booking Inquiry</h2>
+        <p><b>Name:</b> ${booking.name}</p>
+        <p><b>Phone:</b> ${booking.phone}</p>
+        <p><b>Email:</b> ${booking.email}</p>
+        <p><b>Message:</b> ${booking.message || "No message"}</p>
+        <p><b>Submitted:</b> ${submittedAt}</p>
+      `,
+      replyTo: booking.email
+    });
+
+    console.log("✅ Emails sent via Brevo");
 
   } catch (error) {
     console.log("❌ Email failed:", error.message);

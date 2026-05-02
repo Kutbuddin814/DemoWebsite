@@ -1,0 +1,166 @@
+:root {
+  --brand-teal: #06201c;
+  --brand-teal-light: #0a4d42;
+  --brand-gold: #ffcc00;
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+}
+
+.thankyou-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top right, #0a4d42, #06201c);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thankyou-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+}
+
+.thankyou-card {
+  background: #ffffff;
+  padding: 60px 40px;
+  border-radius: 32px;
+  text-align: center;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- ICON ANIMATION --- */
+.success-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.success-icon {
+  color: #27ae60;
+  animation: scaleCheck 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.confetti-placeholder {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 24px;
+  animation: float 2s ease-in-out infinite;
+}
+
+/* --- TYPOGRAPHY --- */
+.status-badge {
+  display: inline-block;
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.thankyou-card h1 {
+  font-size: 36px;
+  color: var(--brand-teal);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.text-gold {
+  color: #b38f00; /* Sophisticated gold for text */
+}
+
+.main-msg {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 450px;
+  margin: 0 auto 40px;
+}
+
+/* --- TRUST STEPS --- */
+.next-steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--brand-teal);
+}
+
+.step-item svg {
+  color: var(--brand-teal-light);
+}
+
+/* --- ACTION BUTTON --- */
+.btn-home-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--brand-gold);
+  color: var(--brand-teal);
+  padding: 18px 35px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(255, 204, 0, 0.3);
+}
+
+.btn-home-back:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(255, 204, 0, 0.4);
+}
+
+/* --- DECORATIONS --- */
+.bg-blur-circle {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: var(--brand-gold);
+  filter: blur(150px);
+  opacity: 0.1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleCheck {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 480px) {
+  .thankyou-card { padding: 40px 25px; }
+  .thankyou-card h1 { font-size: 28px; }
+  .next-steps { flex-direction: column; gap: 15px; }
+}

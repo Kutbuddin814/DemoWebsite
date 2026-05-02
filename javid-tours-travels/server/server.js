@@ -19,7 +19,7 @@ const configuredOrigins = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
-  
+
 const allowedOrigins = configuredOrigins.length > 0
   ? configuredOrigins
   : defaultAllowedOrigins;
@@ -32,13 +32,8 @@ function isTrustedNetlifyPreview(origin = "") {
 }
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || isTrustedNetlifyPreview(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("Not allowed by CORS"));
-  }
+  origin: true, // allow all origins temporarily
+  credentials: true
 }));
 app.use(express.json());
 

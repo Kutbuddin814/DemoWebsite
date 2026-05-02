@@ -1,150 +1,83 @@
-import {
-  FaUmbrellaBeach,
-  FaFortAwesome,
-  FaChurch,
-  FaLeaf,
-  FaLandmark
-} from "react-icons/fa";
+import React, { useState } from "react";
+import { 
+  Umbrella, 
+  Castle, 
+  Church, 
+  Leaf, 
+  Map, 
+  Navigation, 
+  Camera 
+} from "lucide-react";
+import "../styles/tours.css";
 
 function Tours() {
+  const [activeTab, setActiveTab] = useState("north");
+
   const northGoaPlaces = [
-    {
-      title: "Baga and Calangute Beach",
-      description:
-        "Bustling stretches known for beach shacks, water sports, and nightlife.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Anjuna Beach",
-      description:
-        "Famous for its lively flea market, vibrant vibe, and cliffside views.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Vagator and Chapora Beach",
-      description:
-        "Known for red cliffs, dramatic sunsets, and access to Chapora Fort.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Candolim Beach",
-      description:
-        "A calmer golden-sand shoreline ideal for relaxing beach time.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Arambol Beach",
-      description:
-        "A laid-back beach setting with a bohemian and peaceful atmosphere.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Fort Aguada",
-      description:
-        "Historic Portuguese fort with sea views and landmark lighthouse.",
-      Icon: FaFortAwesome
-    },
-    {
-      title: "Chapora Fort",
-      description:
-        "A scenic fort offering panoramic views that are especially striking at sunset.",
-      Icon: FaFortAwesome
-    },
-    {
-      title: "Old Goa Churches",
-      description:
-        "Visit heritage churches including Basilica of Bom Jesus and Se Cathedral.",
-      Icon: FaChurch
-    },
-    {
-      title: "Our Lady of Immaculate Conception Church",
-      description:
-        "A landmark church known for its iconic white facade and staircase.",
-      Icon: FaChurch
-    }
+    { title: "Baga & Calangute", description: "Bustling stretches known for beach shacks, water sports, and nightlife.", Icon: Umbrella },
+    { title: "Anjuna Beach", description: "Famous for its lively flea market, vibrant vibe, and cliffside views.", Icon: Camera },
+    { title: "Vagator & Chapora", description: "Known for red cliffs, dramatic sunsets, and access to Chapora Fort.", Icon: Navigation },
+    { title: "Candolim Beach", description: "A calmer golden-sand shoreline ideal for relaxing beach time.", Icon: Umbrella },
+    { title: "Arambol Beach", description: "A laid-back beach setting with a bohemian and peaceful atmosphere.", Icon: Leaf },
+    { title: "Fort Aguada", description: "Historic Portuguese fort with sea views and landmark lighthouse.", Icon: Castle },
+    { title: "Chapora Fort", description: "A scenic fort offering panoramic views especially striking at sunset.", Icon: Castle },
+    { title: "Old Goa Churches", description: "Visit heritage sites like Basilica of Bom Jesus and Se Cathedral.", Icon: Church },
+    { title: "Immaculate Conception", description: "Landmark church known for its iconic white facade and staircase.", Icon: Church }
   ];
 
   const southGoaPlaces = [
-    {
-      title: "The Figueiredo Mansion",
-      description:
-        "A centuries-old Portuguese mansion showcasing Goa's colonial heritage.",
-      Icon: FaLandmark
-    },
-    {
-      title: "Bigfoot Museum",
-      description:
-        "A cultural museum that presents local traditions and Goan folklore.",
-      Icon: FaLandmark
-    },
-    {
-      title: "Margao City",
-      description:
-        "South Goa's commercial center with lively markets and local charm.",
-      Icon: FaLandmark
-    },
-    {
-      title: "Colva Beach",
-      description:
-        "A popular beach destination with a wide shore and calm coastal energy.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Majorda Beach",
-      description:
-        "A serene shoreline known for clean sands and a relaxed atmosphere.",
-      Icon: FaUmbrellaBeach
-    },
-    {
-      title: "Cabo de Rama Fort",
-      description:
-        "Historic fort ruins with sweeping views of the Arabian Sea.",
-      Icon: FaFortAwesome
-    },
-    {
-      title: "Shri Shantadurga Temple",
-      description:
-        "A revered temple reflecting Goa's spiritual and architectural heritage.",
-      Icon: FaChurch
-    },
-    {
-      title: "Spice Plantation",
-      description:
-        "Guided tours through lush plantations with insights into local spices.",
-      Icon: FaLeaf
-    }
+    { title: "Figueiredo Mansion", description: "A centuries-old Portuguese mansion showcasing Goa's colonial heritage.", Icon: Map },
+    { title: "Bigfoot Museum", description: "A cultural museum that presents local traditions and folklore.", Icon: Map },
+    { title: "Margao City", description: "South Goa's commercial center with lively markets and local charm.", Icon: Navigation },
+    { title: "Colva Beach", description: "A popular beach destination with a wide shore and calm coastal energy.", Icon: Umbrella },
+    { title: "Majorda Beach", description: "A serene shoreline known for clean sands and a relaxed atmosphere.", Icon: Umbrella },
+    { title: "Cabo de Rama Fort", description: "Historic fort ruins with sweeping views of the Arabian Sea.", Icon: Castle },
+    { title: "Shantadurga Temple", description: "A revered temple reflecting Goa's spiritual and architectural heritage.", Icon: Church },
+    { title: "Spice Plantation", description: "Guided tours through lush plantations with insights into local spices.", Icon: Leaf }
   ];
+
+  const currentPlaces = activeTab === "north" ? northGoaPlaces : southGoaPlaces;
 
   return (
     <div className="tours-page">
+      <section className="tours-hero">
+        <div className="section-header">
+          <span className="subtitle">Curated Itineraries</span>
+          <h1>Explore the <span className="text-gradient">Heart of Goa</span></h1>
+          <p className="header-p">Discover pristine beaches, historic forts, and rich cultural heritage with our expert sightseeing plans.</p>
+        </div>
+      </section>
 
-      <div className="tours-header">
-        <h1>North & South Goa Sightseeing</h1>
-        <p>Discover Goa's beaches, forts, culture, and heritage in one curated plan</p>
+      <div className="tours-content-wrapper">
+        <div className="tab-navigation">
+          <button 
+            className={`tab-btn ${activeTab === "north" ? "active" : ""}`} 
+            onClick={() => setActiveTab("north")}
+          >
+            North Goa Highlights
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === "south" ? "active" : ""}`} 
+            onClick={() => setActiveTab("south")}
+          >
+            South Goa Highlights
+          </button>
+        </div>
+
+        <div className="places-grid animate-fade-in">
+          {currentPlaces.map(({ title, description, Icon }) => (
+            <article className="place-card" key={title}>
+              <div className="place-icon-container">
+                <Icon size={28} />
+              </div>
+              <div className="place-info">
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
-
-      <h2 className="section-title">North Goa Highlights</h2>
-      <div className="places-grid">
-        {northGoaPlaces.map(({ title, description, Icon }) => (
-          <article className="place-card" key={title}>
-            <Icon className="place-icon" />
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </article>
-        ))}
-      </div>
-
-      <h2 className="section-title">South Goa Highlights</h2>
-      <div className="places-grid">
-        {southGoaPlaces.map(({ title, description, Icon }) => (
-          <article className="place-card" key={title}>
-            <Icon className="place-icon" />
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </article>
-        ))}
-      </div>
-
     </div>
   );
 }

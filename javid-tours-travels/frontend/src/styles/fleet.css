@@ -1,0 +1,237 @@
+:root {
+  --primary-gold: #ffcc00;
+  --dark-teal: #06201c;
+  --text-gray: #5e6d6a;
+  --white: #ffffff;
+  --shadow-lux: 0 20px 40px rgba(0, 0, 0, 0.06);
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.fleet-page {
+  padding-top: 100px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f7f6 100%);
+  min-height: 100vh;
+}
+
+/* HERO SECTION */
+.fleet-hero {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero-kicker {
+  background: rgba(255, 204, 0, 0.15);
+  color: #b38f00;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fleet-hero h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  color: var(--dark-teal);
+  margin: 15px 0;
+  font-weight: 800;
+}
+
+.fleet-hero p {
+  color: var(--text-gray);
+  max-width: 650px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* GRID CONTAINER */
+.fleet-container {
+  width: min(1200px, 94vw);
+  margin: 40px auto 100px;
+}
+
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+}
+
+/* PREMIUM CARD */
+.fleet-card {
+  background: var(--white);
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lux);
+  border: 1px solid rgba(0,0,0,0.03);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 40px 80px rgba(6, 32, 28, 0.12);
+}
+
+/* IMAGE AREA */
+.fleet-image-wrapper {
+  position: relative;
+  height: 280px;
+  background: #eef3f2;
+  overflow: hidden;
+}
+
+.fleet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Better for bus PNGs with shadows */
+  padding: 20px;
+  transition: var(--transition);
+}
+
+.fleet-card:hover .fleet-img {
+  transform: scale(1.05);
+}
+
+.fleet-tag-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--dark-teal);
+  color: var(--white);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 12px;
+  z-index: 2;
+}
+
+/* CONTENT AREA */
+.fleet-content {
+  padding: 35px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.fleet-header-row h3 {
+  font-size: 24px;
+  color: var(--dark-teal);
+  font-weight: 800;
+}
+
+.seat-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0f7f6;
+  color: #0a4d42;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.feature-pills {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.feature-pills span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-gray);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fleet-desc {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-gray);
+  margin-bottom: 20px;
+}
+
+.fleet-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+.fleet-specs li {
+  font-size: 13px;
+  background: #f8f8f8;
+  padding: 4px 12px;
+  border-radius: 6px;
+  color: #333;
+}
+
+/* ACTIONS */
+.fleet-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.fleet-btn-primary {
+  flex: 1;
+  background: var(--primary-gold);
+  color: var(--dark-teal);
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 16px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.fleet-btn-primary:hover {
+  background: #e6b800;
+  gap: 15px;
+}
+
+.fleet-btn-wa {
+  width: 54px;
+  height: 54px;
+  background: #25D366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-size: 22px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.fleet-btn-wa:hover {
+  background: #1ebe5d;
+  transform: rotate(10deg);
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+  .fleet-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .fleet-image-wrapper {
+    height: 220px;
+  }
+}

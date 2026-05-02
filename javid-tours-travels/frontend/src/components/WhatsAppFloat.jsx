@@ -10,7 +10,7 @@ function WhatsAppFloat() {
   return (
     <a
       className="whatsapp-float"
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`}
+      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${message}&lang=en`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

@@ -8,6 +8,9 @@ import Tours from "./pages/Tours";
 import Contact from "./pages/Contact";
 import ThankYou from "./pages/ThankYou";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import Fleet from "./pages/Fleet";
+import "./styles/global.css";
+import "./styles/navbar.css";
 
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
         <Route path="/tours" element={<Tours />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/thank-you" element={<ThankYou />} />
+        <Route path="/fleet" element={<Fleet />} />
       </Routes>
       <WhatsAppFloat />
       <Footer />

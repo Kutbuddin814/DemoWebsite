@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Phone, Mail, MapPin, Send, MessageSquare } from "lucide-react";
+import "../styles/contact.css";
 
 function Contact() {
   const navigate = useNavigate();
@@ -18,50 +20,31 @@ function Contact() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.name || !formData.phone || !formData.email) {
       alert("Please fill all required fields");
       return;
     }
 
     setIsSubmitting(true);
-
     try {
-      const response = await axios.post(
-        `${apiBaseUrl}/api/book`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
+      const response = await axios.post(`${apiBaseUrl}/api/book`, formData);
 
       if (response.data.success) {
         window.open(
           "https://wa.me/919767856773?text=Hello%20Javid%20Tours%2C%20I%20just%20submitted%20a%20tour%20inquiry.",
           "_blank"
         );
-
         navigate("/thank-you");
       } else {
         alert("Failed to submit inquiry");
       }
-
     } catch (error) {
-      console.error(error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Server error. Please try again later.";
-      alert(errorMessage);
+      alert("Server error. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -69,52 +52,71 @@ function Contact() {
 
   return (
     <div className="contact-page">
-      <div className="contact-box">
-        <h1>Book Your Tour Today</h1>
+      <div className="contact-container">
+        {/* Left Side: Professional Info */}
+        <div className="contact-info">
+          <span className="subtitle">Get in Touch</span>
+          <h1>Let's Plan Your <span className="text-gradient">Goa Journey</span></h1>
+          <p>Have questions about our fleet or custom itineraries? Our team is ready to assist you 24/7.</p>
+          
+          <div className="info-items">
+            <div className="info-item">
+              <div className="info-icon"><Phone size={20} /></div>
+              <div>
+                <h4>Call or WhatsApp</h4>
+                <p>+91 97678 56773</p>
+              </div>
+            </div>
+            <div className="info-item">
+              <div className="info-icon"><Mail size={20} /></div>
+              <div>
+                <h4>Email Us</h4>
+                <p>info@javidtours.com</p>
+              </div>
+            </div>
+            <div className="info-item">
+              <div className="info-icon"><MapPin size={20} /></div>
+              <div>
+                <h4>Office Location</h4>
+                <p>Vasco da Gama, Goa</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        {/* Right Side: Modern Form Card */}
+        <div className="contact-form-card">
+          <form onSubmit={handleSubmit}>
+            <div className="input-group">
+              <label>Full Name</label>
+              <input name="name" placeholder="Enter your name" value={formData.name} onChange={handleChange} required />
+            </div>
 
-          <input
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-            inputMode="numeric"
-            pattern="[0-9]{10}"
-            title="Enter a valid 10-digit phone number"
-            required
-          />
+            <div className="input-group">
+              <label>Phone Number</label>
+              <input name="phone" placeholder="Enter your phone number" value={formData.phone} onChange={handleChange} inputMode="numeric" pattern="[0-9]{10}" required />
+            </div>
 
-          <input
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+            <div className="input-group">
+              <label>Email Address</label>
+              <input name="email" type="email" placeholder="Enter your email" value={formData.email} onChange={handleChange} required />
+            </div>
 
-          <textarea
-            name="message"
-            placeholder="Tell us your travel plan..."
-            value={formData.message}
-            onChange={handleChange}
-          />
+            <div className="input-group">
+              <label>Travel Plans / Message</label>
+              <textarea name="message" placeholder="Tell us about your group size and destination..." value={formData.message} onChange={handleChange} />
+            </div>
 
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Sending..." : "Send Inquiry"}
-          </button>
-        </form>
-
-        <p className="contact-note">
-          Prefer instant support? WhatsApp us on 9767856773.
-        </p>
+            <button type="submit" className="submit-btn" disabled={isSubmitting}>
+              {isSubmitting ? "Processing..." : <>Send Inquiry <Send size={18} /></>}
+            </button>
+          </form>
+          
+          <div className="whatsapp-redirect">
+            <MessageSquare size={16} />
+            <span>Instant support available via WhatsApp</span>
+          </div>
+        </div>
       </div>
     </div>
   );
