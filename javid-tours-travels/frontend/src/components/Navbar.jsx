@@ -42,6 +42,7 @@ function Navbar() {
               <li><Link to="/" className={isActive("/") ? "active" : ""}>Home</Link></li>
               <li><Link to="/services" className={isActive("/services") ? "active" : ""}>Services</Link></li>
               <li><Link to="/tours" className={isActive("/tours") ? "active" : ""}>Tours</Link></li>
+              <li><Link to="/about" className={isActive("/about") ? "active" : ""}>About Us</Link></li>
             </ul>
 
             <Link to="/contact" className="nav-cta-btn">Book Now</Link>
@@ -68,6 +69,7 @@ function Navbar() {
           <Link to="/" className={isActive("/") ? "active" : ""}>Home</Link>
           <Link to="/services" className={isActive("/services") ? "active" : ""}>Services</Link>
           <Link to="/tours" className={isActive("/tours") ? "active" : ""}>Tours</Link>
+          <Link to="/about" className={isActive("/about") ? "active" : ""}>About Us</Link>
         </div>
 
         <div className="mobile-footer">
